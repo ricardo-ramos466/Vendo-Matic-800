@@ -1,6 +1,7 @@
 package com.techelevator;
 
 import com.techelevator.view.Menu;
+import com.techelevator.view.PurchaseMenu;
 import com.techelevator.view.Stocker;
 
 public class VendingMachineCLI {
@@ -9,7 +10,7 @@ public class VendingMachineCLI {
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
 	private static final String MAIN_MENU_CLOSE_OPTION = "Exit";
 	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_CLOSE_OPTION };
-
+	private PurchaseMenu purchaseMenu = new PurchaseMenu();
 	static Stocker stocker = new Stocker();
 	private Menu menu;
 
@@ -27,6 +28,7 @@ public class VendingMachineCLI {
 				stocker.displayInventory();
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// do purchase
+				 choice = (String) purchaseMenu.getChoiceFromOptions();
 			} else if (choice.equals(MAIN_MENU_CLOSE_OPTION)) {
 				// exit application
 				isRun = false;
