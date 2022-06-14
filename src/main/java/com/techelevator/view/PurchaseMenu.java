@@ -20,32 +20,32 @@ public class PurchaseMenu extends Menu{
         super();
     }
 
-    public static final String[] PURCHASE_MENU_OPTIONS() {
+    public final String[] PURCHASE_MENU_OPTIONS() {
         String[] purchaseOptions = new String[] {PURCHASE_OPTION_FEED_MONEY, PURCHASE_OPTION_SELECT_PRODUCT, PURCHASE_OPTION_FINISH_TRANSACTION};
 
         return purchaseOptions;
     }
 
-    @Override
-    private void displayMenuOptions() {
-        out.println();
-        for (int i = 0; i < PURCHASE_MENU_OPTIONS().length; i++) {
-            int optionNum = i + 1;
-            out.println(optionNum + ") " + PURCHASE_MENU_OPTIONS()[i]);
-        }
-        out.print(System.lineSeparator() + "Please choose an option >>> ");
-        out.flush();
-    }
+//    @Override
+//    private void displayMenuOptions() {
+//        out.println();
+//        for (int i = 0; i < PURCHASE_MENU_OPTIONS().length; i++) {
+//            int optionNum = i + 1;
+//            out.println(optionNum + ") " + PURCHASE_MENU_OPTIONS()[i]);
+//        }
+//        out.print(System.lineSeparator() + "Please choose an option >>> ");
+//        out.flush();
+//    }
 
-    @Override
-    public Object getChoiceFromOptions(Object[] options) {
-        Object choice = null;
-        while (choice == null) {
-            displayMenuOptions();
-            choice = getChoiceFromUserInput(options);
-        }
-        return choice;
-    }
+//    @Override
+//    public Object getChoiceFromOptions(Object[] options) {
+//        Object choice = null;
+//        while (choice == null) {
+//            displayMenuOptions();
+//            choice = getChoiceFromUserInput(PURCHASE_MENU_OPTIONS());
+//        }
+//        return choice;
+//    }
 
     public double feedMoney(int moneyGiven) {
         currentMoney += moneyGiven;

@@ -28,7 +28,7 @@ public class VendingMachineCLI {
 				stocker.displayInventory();
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// do purchase
-				 choice = (String) purchaseMenu.getChoiceFromOptions();
+				 choice = (String) menu.getChoiceFromOptions(purchaseMenu.PURCHASE_MENU_OPTIONS());
 			} else if (choice.equals(MAIN_MENU_CLOSE_OPTION)) {
 				// exit application
 				isRun = false;
