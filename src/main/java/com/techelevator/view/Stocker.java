@@ -33,18 +33,7 @@ public class Stocker {
                 if (type.equals("Gum")) {
                     inventory.add(new Gum(code, name, price, type, 5 ) );
                 }
-//                if (item[3].contains("Chip")) {
-//                    inventory.add(new Chips(item[0], item[1], Integer.parseInt(item[2]), item[3], 5 ) );
-//                }
-//                if (item[3].contains("Candy")) {
-//                    inventory.add(new Candy(item[0], item[1], Integer.parseInt(item[2]), item[3], 5 ) );
-//                }
-//                if (item[3].contains("Drink")) {
-//                    inventory.add(new Beverages(item[0], item[1], Integer.parseInt(item[2]), item[3], 5 ) );
-//                }
-//                if (item[3].contains("Gum")) {
-//                    inventory.add(new Gum(item[0], item[1], Integer.parseInt(item[2]), item[3], 5 ) );
-//                }
+
             }
         }
         catch(IOException ex) {
@@ -61,6 +50,7 @@ public class Stocker {
         }
 
     }
+
 
     public List<Product> getInventory() {
         return inventory;

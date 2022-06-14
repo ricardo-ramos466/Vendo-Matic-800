@@ -3,6 +3,7 @@ package com.techelevator.view;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class PurchaseMenu extends Menu{
 
@@ -47,15 +48,46 @@ public class PurchaseMenu extends Menu{
 //        return choice;
 //    }
 
-    public double feedMoney(int moneyGiven) {
+    public double feedMoney(int choiceSelected) {
+        int moneyGiven = choiceSelected;
         currentMoney += moneyGiven;
-
+        System.out.println("This is the current money provided: " + moneyGiven);
         return currentMoney;
     }
 
+    public void selectProduct(String productCode) {
+
+    }
+
     public final String[] FEED_MONEY_OPTIONS() {
-        String[] billsToFeed = new String[] {"$1", "$2", "$5", "$10"};
+        String[] billsToFeed = new String[] {"1", "2", "5", "10"};
         return billsToFeed;
+    }
+
+    public String[] productPurchase(List<Product> inventory) {
+        String[] returnStatement = new String[inventory.size()];
+        int i = 0;
+
+        for (Product item : inventory) {
+            returnStatement[i] = item.toString();
+            i++;
+        }
+        return returnStatement;
+    }
+
+//    @Overloading the method
+    public void displayMenuOptions(String[] options) {
+        String[] productCode = new String[options.length];
+        String[] product = new String[options.length];
+        out.println();
+        for (int i = 0; i < options.length; i++) {
+            int optionNum = i + 1;
+            product = options[i].split("|");
+            productCode[i] = product[0];
+            out.println(productCode + ") " + product[1] + " $" + product[2]);
+        }
+        out.print(System.lineSeparator() + "Please choose an option >>> ");
+        out.flush();
     }
 
 

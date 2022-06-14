@@ -66,4 +66,5 @@ public class Product {
     public String toString() {
         return this.code + "|" + this.name + "|" + this.price;
     }
+
 }

@@ -29,6 +29,13 @@ public class VendingMachineCLI {
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// do purchase
 				 choice = (String) menu.getChoiceFromOptions(purchaseMenu.PURCHASE_MENU_OPTIONS());
+				 if (choice.equals(purchaseMenu.getPURCHASE_OPTION_FEED_MONEY())) {
+					 choice = (String) menu.getChoiceFromOptions(purchaseMenu.FEED_MONEY_OPTIONS());
+					purchaseMenu.feedMoney(Integer.parseInt(choice));
+				 } else if (choice.equals(purchaseMenu.getPURCHASE_OPTION_SELECT_PRODUCT())) {
+					 choice = (String) purchaseMenu.displayMenuOptions(purchaseMenu.productPurchase(stocker.getInventory()));
+//					 Ask Sweet for suggestions to get this portion to work ^
+				 }
 			} else if (choice.equals(MAIN_MENU_CLOSE_OPTION)) {
 				// exit application
 				isRun = false;
