@@ -33,7 +33,7 @@ public class VendingMachineCLI {
 					 choice = (String) menu.getChoiceFromOptions(purchaseMenu.FEED_MONEY_OPTIONS());
 					purchaseMenu.feedMoney(Integer.parseInt(choice));
 				 } else if (choice.equals(purchaseMenu.getPURCHASE_OPTION_SELECT_PRODUCT())) {
-					 choice = (String) purchaseMenu.displayMenuOptions(purchaseMenu.productPurchase(stocker.getInventory()));
+					 choice = (String) purchaseMenu.getProductOption(purchaseMenu.productPurchasetoArray(stocker.getInventory()));
 //					 Ask Sweet for suggestions to get this portion to work ^
 				 }
 			} else if (choice.equals(MAIN_MENU_CLOSE_OPTION)) {

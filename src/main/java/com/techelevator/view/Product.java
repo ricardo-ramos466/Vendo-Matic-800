@@ -1,6 +1,6 @@
 package com.techelevator.view;
 
-public class Product {
+public abstract class Product implements Purchasable{
     private String code;
     private String name;
     private double price;
@@ -19,6 +19,9 @@ public class Product {
         this.price = price;
         this.type = type;
         this.quantity = quanity;
+    }
+
+    void PurchaseThanks() {
     }
 
 
@@ -67,4 +70,10 @@ public class Product {
         return this.code + "|" + this.name + "|" + this.price;
     }
 
+    @Override
+    public void sold() {
+        int i = getQuantity();
+        i--;
+        setQuantity(i);
+    }
 }

@@ -54,4 +54,12 @@ public class Menu {
 		out.print(System.lineSeparator() + "Please choose an option >>> ");
 		out.flush();
 	}
+
+//	public PrintWriter getOut() {
+//		return out;
+//	}
+//
+//	public Scanner getIn() {
+//		return in;
+//	}
 }
