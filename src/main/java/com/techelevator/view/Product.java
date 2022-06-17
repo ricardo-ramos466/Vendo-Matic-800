@@ -6,6 +6,8 @@ public abstract class Product implements Purchasable{
     private double price;
     private String type;
     private int quantity;
+    private int amountSold;
+
 
 
     public Product(String name, double price) {
@@ -21,8 +23,8 @@ public abstract class Product implements Purchasable{
         this.quantity = quanity;
     }
 
-    void PurchaseThanks() {
-    }
+    abstract void purchaseThanks();
+
 
 
 
@@ -72,8 +74,19 @@ public abstract class Product implements Purchasable{
 
     @Override
     public void sold() {
+        int soldCount= getAmountSold();
         int i = getQuantity();
         i--;
+        soldCount++;
         setQuantity(i);
+        setAmountSold(soldCount);
+    }
+
+    public int getAmountSold() {
+        return amountSold;
+    }
+
+    public void setAmountSold(int amountSold) {
+        this.amountSold = amountSold;
     }
 }

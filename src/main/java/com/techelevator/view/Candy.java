@@ -8,4 +8,9 @@ public class Candy extends Product{
     public Candy(String code, String name, double price, String type, int quanity) {
         super(code, name, price, type, quanity);
     }
+
+    @Override
+    void purchaseThanks() {
+        System.out.println("Munch Munch, Yum!");
+    }
 }

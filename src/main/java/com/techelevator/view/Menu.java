@@ -1,8 +1,9 @@
 package com.techelevator.view;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Menu {
@@ -23,6 +24,15 @@ public class Menu {
 		Object choice = null;
 		while (choice == null) {
 			displayMenuOptions(options);
+			choice = getChoiceFromUserInput(options);
+		}
+		return choice;
+	}
+
+	public Object getChoiceFromOptions(Object[] options, PurchaseMenu menu) {
+		Object choice = null;
+		while (choice == null) {
+			displayMenuOptions(options, menu);
 			choice = getChoiceFromUserInput(options);
 		}
 		return choice;
@@ -55,11 +65,27 @@ public class Menu {
 		out.flush();
 	}
 
-//	public PrintWriter getOut() {
-//		return out;
-//	}
-//
-//	public Scanner getIn() {
-//		return in;
-//	}
+	private void displayMenuOptions(Object[] options, PurchaseMenu menu) {
+		out.println();
+		for (int i = 0; i < options.length; i++) {
+			int optionNum = i + 1;
+			out.println(optionNum + ") " + options[i]);
+		}
+
+		out.print(System.lineSeparator() + "Current Money Provided: $" + menu.getCurrentMoney() + "\n" + "Please choose an option >>> ");
+		out.flush();
+	}
+	public void machineLog(String log){
+		File logFile = new File("log.txt");
+		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date();
+		try(PrintWriter logger = new PrintWriter(new FileOutputStream(logFile,true))){
+
+			logger.println(formatDate.format(date)+"\t"+log);
+
+
+		}catch (Exception e){
+
+		}
+	}
 }

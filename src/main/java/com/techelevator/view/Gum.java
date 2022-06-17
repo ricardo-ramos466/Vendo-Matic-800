@@ -8,4 +8,8 @@ public class Gum extends Product{
     public Gum(String code, String name, double price, String type, int quanity) {
         super(code, name, price, type, quanity);
     }
+    @Override
+    void purchaseThanks() {
+        System.out.println("Chew Chew, Yum!");
+    }
 }

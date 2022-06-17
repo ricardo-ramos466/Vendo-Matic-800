@@ -12,7 +12,7 @@ public class Stocker {
 
 
     public void loadStock() {
-        File file = new File("C:\\Users\\music\\Desktop\\Sus Tech Squad\\capstone-1\\vendingmachine.csv");
+        File file = new File("vendingmachine.csv");
         try (Scanner scan = new Scanner(file)) {
             while (scan.hasNextLine()) {
                 String[] item = scan.nextLine().split("\\|");

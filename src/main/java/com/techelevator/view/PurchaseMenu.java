@@ -12,7 +12,7 @@ public class PurchaseMenu extends Menu{
     private final static String PURCHASE_OPTION_FEED_MONEY = "Feed Money";
     private final static String PURCHASE_OPTION_SELECT_PRODUCT = "Select Product";
     private final static String PURCHASE_OPTION_FINISH_TRANSACTION = "Finish Transaction";
-    private double currentMoney = 0;
+    private double currentMoney = 0.00;
 
 
 
@@ -53,9 +53,10 @@ public class PurchaseMenu extends Menu{
 
     public double feedMoney(int choiceSelected) {
         int moneyGiven = choiceSelected;
-        currentMoney += moneyGiven;
-        System.out.println("This is the current money provided: " + moneyGiven);
-        return currentMoney;
+        setCurrentMoney(getCurrentMoney()+moneyGiven);
+        String log ="FEED MONEY: $"+moneyGiven+"  "+getCurrentMoney();
+        machineLog(log);
+        return getCurrentMoney();
     }
 
     public void selectProduct(String productCode) {
@@ -108,16 +109,18 @@ public class PurchaseMenu extends Menu{
         int i = 1;
         for (Product product : products) {
             if (i < 4) {
-                System.out.print(product.getCode() + "| " + product.getName() + "| $" + product.getPrice() + "\t");
+                String productPrint = product.getCode() + "| " + product.getName() + "| $" + product.getPrice() + "\t";
+                System.out.print(String.format("%-30s", productPrint));
                 i++;
             } else if (i == 4) {
                 System.out.print(product.getCode() + "| " + product.getName() + "| $" + product.getPrice() + "\n");
                 i = 1;
             }
         }
+        System.out.println("\t Current Balance: $"+getCurrentMoney());
+        System.out.println();
+
         System.out.print("Please select a product code >>> ");
-        System.out.println(
-        );
     }
 
     public Object getProductOption(Product[] options) {
@@ -125,6 +128,7 @@ public class PurchaseMenu extends Menu{
         while (choice == null) {
             productList(options);
             choice = ProductSelection(options);
+            System.out.println();
         }
         return choice;
 
@@ -152,15 +156,27 @@ public class PurchaseMenu extends Menu{
     public Object ProductSelection(Product[] products) {
         Scanner in = new Scanner(System.in);
         String choice = in.nextLine().toUpperCase();
+        String log = "";
+        double moneyBefore = 0.00;
         boolean isChoiceValid = false;
         for (Product product : products) {
-            if (product.getCode().equals(choice) && product.getQuantity() > 0) {
+            if (product.getCode().equals(choice) && product.getQuantity() > 0 && getCurrentMoney() >= product.getPrice()) {
                 System.out.println("You have selected: " + product.getName() + ".");
                 product.sold();
+                System.out.println();
+                moneyBefore = getCurrentMoney();
+                setCurrentMoney(getCurrentMoney()- product.getPrice());
+                product.purchaseThanks();
+                log = product.getName() +" "+product.getCode()+ " $"+moneyBefore+" $"+getCurrentMoney();
+                machineLog(log);
                 isChoiceValid = true;
-            } else if (product.getCode().equals(choice) && product.getQuantity() == 0) {
+            } else if (product.getCode().equals(choice) && product.getQuantity() == 0 && getCurrentMoney() >= product.getPrice()) {
                 System.out.println();
                 System.out.println("The item that you have selected is out of stock.");
+                isChoiceValid = true;
+
+            } else if (product.getCode().equals(choice) && getCurrentMoney() < product.getPrice()) {
+                System.out.println("Balance is too low!");
                 isChoiceValid = true;
             }
         }
@@ -170,7 +186,56 @@ public class PurchaseMenu extends Menu{
         return choice;
     }
 
+    public void getChange(){
+        double quarter = 25;
+        double dime = 10;
+        double nickel = 5;
+        double penny = 1;
+        double moneyBefore = getCurrentMoney();
+        double money = getCurrentMoney()*100;
 
+        String log = "";
+        int i = 0;
+        while (money>0) {
+            while (money >= quarter) {
+                money -= quarter;
+                i++;
+            }
+            System.out.print("Dispensing: ");
+            if (i > 0) {
+                System.out.print(i + " Quarters | ");
+            }
+            i = 0;
+            while (money >= dime) {
+                money -= dime;
+                i++;
+            }
+            if (i > 0) {
+                System.out.print(i + " Dimes | ");
+            }
+            i = 0;
+            while (money >= nickel) {
+               money -= nickel;
+                i++;
+            }
+            if (i > 0) {
+                System.out.print(i + " Nickels");
+            }
+            i = 0;
+            while (money >= penny) {
+                money -= penny;
+                i++;
+            }
+            if (i > 0) {
+                System.out.println(i + " Penny");
+            }
+            i = 0;
+        }
+        setCurrentMoney(money/100);
+        log = "GIVE CHANGE: $"+moneyBefore+" $"+getCurrentMoney();
+        machineLog(log);
+        System.out.println();
+    }
 
 
 
