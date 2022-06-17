@@ -116,7 +116,8 @@ public class PurchaseMenu extends Menu{
             }
         }
         System.out.print("Please select a product code >>> ");
-        System.out.println();
+        System.out.println(
+        );
     }
 
     public Object getProductOption(Product[] options) {
