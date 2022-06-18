@@ -110,7 +110,8 @@ public class PurchaseMenu extends Menu{
         for (Product product : products) {
             if (i < 4) {
                 String productPrint = product.getCode() + "| " + product.getName() + "| $" + product.getPrice() + "\t";
-                System.out.print(String.format("%-30s", productPrint));
+                //System.out.printf("%-30s", productPrint);
+                System.out.printf("%-30s%-30s%-30d\n",product.getCode(),product.getName(),product.getPrice());
                 i++;
             } else if (i == 4) {
                 System.out.print(product.getCode() + "| " + product.getName() + "| $" + product.getPrice() + "\n");
