@@ -123,20 +123,22 @@ public class Menu {
 	}
 
 	public void salesReport(List<Product> products) {
-		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy-hh:mm:ss-aa");
+		SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy_hh-mm-ss_aa");
 		Date date = new Date();
 		String currentDate = formatDate.format(date);
-		String filePath = currentDate + "-salesReport.txt";
+		String filePath = currentDate + "_salesReport.txt";
 		File salesReportFile = new File(filePath);
+		System.out.println(currentDate+"\n"+salesReportFile);
 
 
-		try(PrintWriter logger = new PrintWriter(new FileOutputStream(salesReportFile))){
+		try(PrintWriter logger = new PrintWriter(salesReportFile)){
 			for (Product product : products) {
 				logger.println(product.getName() + "| " + product.getAmountSold());
 			}
 
 		}catch (Exception e){
-			System.out.println(e.getStackTrace());
+			e.printStackTrace();
+
 		}
 	}
 }
