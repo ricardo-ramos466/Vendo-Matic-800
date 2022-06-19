@@ -1,12 +1,15 @@
 package com.techelevator.view;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.security.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
 public class Menu {
+	public DecimalFormat df = new DecimalFormat("0.00");
 
 	private PrintWriter out;
 	private Scanner in;
@@ -72,7 +75,7 @@ public class Menu {
 			out.println(optionNum + ") " + options[i]);
 		}
 
-		out.print(System.lineSeparator() + "Current Money Provided: $" + menu.getCurrentMoney() + "\n" + "Please choose an option >>> ");
+		out.print(System.lineSeparator() + "Current Money Provided: $" + df.format(menu.getCurrentMoney()) + "\n" + "Please choose an option >>> ");
 		out.flush();
 	}
 	public void machineLog(String log){

@@ -3,6 +3,7 @@ package com.techelevator.view;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -13,6 +14,8 @@ public class PurchaseMenu extends Menu{
     private final static String PURCHASE_OPTION_SELECT_PRODUCT = "Select Product";
     private final static String PURCHASE_OPTION_FINISH_TRANSACTION = "Finish Transaction";
     private double currentMoney = 0.00;
+//    DecimalFormat df = new DecimalFormat("#.00");
+
 
 
 
@@ -106,19 +109,26 @@ public class PurchaseMenu extends Menu{
 //    }
 //
     public void productList(Product[] products) {
-        int i = 1;
-        for (Product product : products) {
-            if (i < 4) {
-                String productPrint = product.getCode() + "| " + product.getName() + "| $" + product.getPrice() + "\t";
-                //System.out.printf("%-30s", productPrint);
-                System.out.printf("%-30s%-30s%-30d\n",product.getCode(),product.getName(),product.getPrice());
-                i++;
-            } else if (i == 4) {
-                System.out.print(product.getCode() + "| " + product.getName() + "| $" + product.getPrice() + "\n");
-                i = 1;
-            }
+        int i = 0;
+        for ( ; i < products.length; i += 4 ) {
+            String productColumn1 = products[i].getCode() + "| " + products[i].getName() + "| $" + df.format(products[i].getPrice());
+            String productColumn2 = products[i + 1].getCode() + "| " + products[i + 1].getName() + "| $" + df.format(products[i + 1].getPrice());
+            String productColumn3 = products[i + 2].getCode() + "| " + products[i + 2].getName() + "| $" + df.format(products[i + 2].getPrice());
+            String productColumn4 = products[i + 3].getCode() + "| " + products[i + 3].getName() + "| $" + df.format(products[i + 3].getPrice());
+            System.out.printf("%-35s%-35s%-35s%-35s\n", productColumn1, productColumn2, productColumn3, productColumn4);
         }
-        System.out.println("\t Current Balance: $"+getCurrentMoney());
+//////        for (Product product : products) {
+////            if (i < 4) {
+////                String productPrint = product.getCode() + "| " + product.getName() + "| $" + product.getPrice() + "\t";
+////                //System.out.printf("%-30s", productPrint);
+//////                System.out.printf("%-30s%-30s%-30d\n",product.getCode(),product.getName(),product.getPrice());
+////                i++;
+////            } else if (i == 4) {
+////                System.out.print(product.getCode() + "| " + product.getName() + "| $" + product.getPrice() + "\n");
+//                i = 1;
+//            }
+//        }
+        System.out.println("\t Current Balance: $"+df.format(getCurrentMoney()));
         System.out.println();
 
         System.out.print("Please select a product code >>> ");
@@ -168,7 +178,7 @@ public class PurchaseMenu extends Menu{
                 moneyBefore = getCurrentMoney();
                 setCurrentMoney(getCurrentMoney()- product.getPrice());
                 product.purchaseThanks();
-                log = product.getName() +" "+product.getCode()+ " $"+moneyBefore+" $"+getCurrentMoney();
+                log = product.getName() +" "+product.getCode()+ " $"+df.format(moneyBefore)+" $"+df.format(getCurrentMoney());
                 machineLog(log);
                 isChoiceValid = true;
             } else if (product.getCode().equals(choice) && product.getQuantity() == 0 && getCurrentMoney() >= product.getPrice()) {
@@ -188,12 +198,12 @@ public class PurchaseMenu extends Menu{
     }
 
     public void getChange(){
-        double quarter = 25;
-        double dime = 10;
-        double nickel = 5;
-        double penny = 1;
+        int quarter = 25;
+        int dime = 10;
+        int nickel = 5;
+        int penny = 1;
         double moneyBefore = getCurrentMoney();
-        double money = getCurrentMoney()*100;
+        int money = (int)getCurrentMoney()*100;
 
         String log = "";
         int i = 0;
@@ -233,7 +243,7 @@ public class PurchaseMenu extends Menu{
             i = 0;
         }
         setCurrentMoney(money/100);
-        log = "GIVE CHANGE: $"+moneyBefore+" $"+getCurrentMoney();
+        log = "GIVE CHANGE: $"+df.format(moneyBefore)+" $"+df.format(getCurrentMoney());
         machineLog(log);
         System.out.println();
     }
