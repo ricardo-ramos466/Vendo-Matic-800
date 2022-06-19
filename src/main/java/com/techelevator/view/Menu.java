@@ -6,6 +6,7 @@ import java.security.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -32,11 +33,21 @@ public class Menu {
 		return choice;
 	}
 
-	public Object getChoiceFromOptions(Object[] options, PurchaseMenu menu) {
+	public Object getChoiceFromOptions(Object[] options, List<Product> products) {
+		Object choice = null;
+		while (choice == null) {
+			displayMenuOptions(options);
+			choice = getChoiceFromUserInput(options, products);
+		}
+		return choice;
+	}
+
+
+	public Object getChoiceFromOptions(Object[] options, PurchaseMenu menu, List<Product> products) {
 		Object choice = null;
 		while (choice == null) {
 			displayMenuOptions(options, menu);
-			choice = getChoiceFromUserInput(options);
+			choice = getChoiceFromUserInput(options, products);
 		}
 		return choice;
 	}
@@ -48,6 +59,25 @@ public class Menu {
 			int selectedOption = Integer.valueOf(userInput);
 			if (selectedOption > 0 && selectedOption <= options.length) {
 				choice = options[selectedOption - 1];
+			}
+		} catch (NumberFormatException e) {
+			// eat the exception, an error message will be displayed below since choice will be null
+		}
+		if (choice == null) {
+			out.println(System.lineSeparator() + "*** " + userInput + " is not a valid option ***" + System.lineSeparator());
+		}
+		return choice;
+	}
+
+	private Object getChoiceFromUserInput(Object[] options, List<Product> products) {
+		Object choice = null;
+		String userInput = in.nextLine();
+		try {
+			int selectedOption = Integer.valueOf(userInput);
+			if (selectedOption > 0 && selectedOption <= options.length) {
+				choice = options[selectedOption - 1];
+			} else if (selectedOption == 4) {
+				salesReport(products);
 			}
 		} catch (NumberFormatException e) {
 			// eat the exception, an error message will be displayed below since choice will be null
@@ -89,6 +119,24 @@ public class Menu {
 
 		}catch (Exception e){
 
+		}
+	}
+
+	public void salesReport(List<Product> products) {
+		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy-hh:mm:ss-aa");
+		Date date = new Date();
+		String currentDate = formatDate.format(date);
+		String filePath = currentDate + "-salesReport.txt";
+		File salesReportFile = new File(filePath);
+
+
+		try(PrintWriter logger = new PrintWriter(new FileOutputStream(salesReportFile))){
+			for (Product product : products) {
+				logger.println(product.getName() + "| " + product.getAmountSold());
+			}
+
+		}catch (Exception e){
+			System.out.println(e.getStackTrace());
 		}
 	}
 }

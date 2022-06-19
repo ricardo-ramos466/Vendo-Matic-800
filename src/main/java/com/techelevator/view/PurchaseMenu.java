@@ -14,18 +14,8 @@ public class PurchaseMenu extends Menu{
     private final static String PURCHASE_OPTION_FEED_MONEY = "Feed Money";
     private final static String PURCHASE_OPTION_SELECT_PRODUCT = "Select Product";
     private final static String PURCHASE_OPTION_FINISH_TRANSACTION = "Finish Transaction";
-//    private double currentMoney = 0.00;
     private BigDecimal currentMoney = new BigDecimal(0);
-//    private String FEED_MONEY_OPTION_EXIT = "Exit";
 
-//    DecimalFormat df = new DecimalFormat("#.00");
-
-
-
-
-    public PurchaseMenu(InputStream input, OutputStream output) {
-        super(input, output);
-    }
 
     public PurchaseMenu() {
         super();
@@ -37,26 +27,6 @@ public class PurchaseMenu extends Menu{
         return purchaseOptions;
     }
 
-//    @Override
-//    private void displayMenuOptions() {
-//        out.println();
-//        for (int i = 0; i < PURCHASE_MENU_OPTIONS().length; i++) {
-//            int optionNum = i + 1;
-//            out.println(optionNum + ") " + PURCHASE_MENU_OPTIONS()[i]);
-//        }
-//        out.print(System.lineSeparator() + "Please choose an option >>> ");
-//        out.flush();
-//    }
-
-//    @Override
-//    public Object getChoiceFromOptions(Object[] options) {
-//        Object choice = null;
-//        while (choice == null) {
-//            displayMenuOptions();
-//            choice = getChoiceFromUserInput(PURCHASE_MENU_OPTIONS());
-//        }
-//        return choice;
-//    }
 
     public BigDecimal feedMoney(int choiceSelected) {
         int moneyGiven = choiceSelected;
@@ -66,14 +36,12 @@ public class PurchaseMenu extends Menu{
         return getCurrentMoney();
     }
 
-    public void selectProduct(String productCode) {
-
-    }
 
     public final String[] FEED_MONEY_OPTIONS() {
         String[] billsToFeed = new String[] {"1", "2", "5", "10", PURCHASE_OPTION_FINISH_TRANSACTION};
         return billsToFeed;
     }
+
 
     public String[] productPurchase(List<Product> inventory) {
         String[] returnStatement = new String[inventory.size()];
@@ -97,21 +65,6 @@ public class PurchaseMenu extends Menu{
         return returnStatement;
     }
 
-////    @Overloading the method
-//    public void displayMenuOptions(String[] options) {
-//        String[] productCode = new String[options.length];
-//        String[] product = new String[options.length];
-//        out.println();
-//        for (int i = 0; i < options.length; i++) {
-//            int optionNum = i + 1;
-//            product = options[i].split("|");
-//            productCode[i] = product[0];
-//            out.println(productCode + ") " + product[1] + " $" + product[2]);
-//        }
-//        out.print(System.lineSeparator() + "Please choose an option >>> ");
-//        out.flush();
-//    }
-//
     public void productList(Product[] products) {
         int i = 0;
         for ( ; i < products.length; i += 4 ) {
@@ -133,17 +86,7 @@ public class PurchaseMenu extends Menu{
             }
             System.out.printf("%-45s%-45s%-45s%-45s\n", productColumn1, productColumn2, productColumn3, productColumn4);
         }
-//////        for (Product product : products) {
-////            if (i < 4) {
-////                String productPrint = product.getCode() + "| " + product.getName() + "| $" + product.getPrice() + "\t";
-////                //System.out.printf("%-30s", productPrint);
-//////                System.out.printf("%-30s%-30s%-30d\n",product.getCode(),product.getName(),product.getPrice());
-////                i++;
-////            } else if (i == 4) {
-////                System.out.print(product.getCode() + "| " + product.getName() + "| $" + product.getPrice() + "\n");
-//                i = 1;
-//            }
-//        }
+
         System.out.println("\t Current Balance: $"+df.format(getCurrentMoney()));
         System.out.println();
 
@@ -161,24 +104,6 @@ public class PurchaseMenu extends Menu{
 
     }
 
-//    private Object getChoiceFromUserInput(Product[] options) {
-//        Scanner in = new Scanner(System.in);
-//        Object choice = null;
-//        String userInput = in.nextLine();
-//        try {
-//            for (Product option : options) {
-//                if (option.getCode().equals(userInput)) {
-//                    choice = option;
-//                }
-//            }
-//        } catch (NumberFormatException e) {
-//            // eat the exception, an error message will be displayed below since choice will be null
-//        }
-//        if (choice == null) {
-//            System.out.println(System.lineSeparator() + "*** " + userInput + " is not a valid option ***" + System.lineSeparator());
-//        }
-//        return choice;
-//    }
 
     public Object ProductSelection(Product[] products) {
         Scanner in = new Scanner(System.in);
@@ -257,10 +182,7 @@ public class PurchaseMenu extends Menu{
             setCurrentMoney(getCurrentMoney().subtract(nickelV));
             money = getCurrentMoney();
         }
-//        while (money.compareTo(new BigDecimal(.01)) > 0) {
-//            penny++;
-//            money = money.subtract(new BigDecimal(.01));
-//        }
+
         if (quarter > 0) {
             System.out.print(quarter + " Quarter(s), ");
         }
@@ -270,47 +192,7 @@ public class PurchaseMenu extends Menu{
         if (nickel > 0) {
             System.out.print(nickel + " Nickel(s) ");
         }
-//        if(penny > 0) {
-//            System.out.print(penny + " Penny");
-//        }
 
-//        int i = 0;
-////        while (money>0) {
-//            while (money >= quarter) {
-//                money -= quarter;
-//                i++;
-//            }
-//            System.out.print("Dispensing: ");
-//            if (i > 0) {
-//                System.out.print(i + " Quarters | ");
-//            }
-//            i = 0;
-//            while (money >= dime) {
-//                money -= dime;
-//                i++;
-//            }
-//            if (i > 0) {
-//                System.out.print(i + " Dimes | ");
-//            }
-//            i = 0;
-//            while (money >= nickel) {
-//               money -= nickel;
-//                i++;
-//            }
-//            if (i > 0) {
-//                System.out.print(i + " Nickels");
-//            }
-//            i = 0;
-//            while (money >= penny) {
-//                money -= penny;
-//                i++;
-//            }
-//            if (i > 0) {
-//                System.out.println(i + " Penny");
-//            }
-//            i = 0;
-//
-//        setCurrentMoney(money.divide(new BigDecimal(100)));
         log = "GIVE CHANGE: $"+ beforeMoney +" $"+getCurrentMoney();
         machineLog(log);
         System.out.println();

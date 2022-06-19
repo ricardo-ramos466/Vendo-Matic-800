@@ -7,10 +7,11 @@ public abstract class Product implements Purchasable{
     private String name;
     private BigDecimal price;
     private String type;
-    private int quantity;
+    private int quantity = 5;
     private int amountSold;
 
-
+    public Product() {
+    }
 
     public Product(String name, double price) {
         this.name = name;

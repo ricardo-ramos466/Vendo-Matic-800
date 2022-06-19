@@ -21,7 +21,7 @@ public class VendingMachineCLI {
 	public void run() {
 		boolean isRun = true;
 		while (isRun) {
-			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
+			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS, stocker.getInventory());
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				// display vending machine items
@@ -31,12 +31,12 @@ public class VendingMachineCLI {
 				boolean isPurchase =true;
 				while (isPurchase){
 
-				 choice = (String) menu.getChoiceFromOptions(purchaseMenu.PURCHASE_MENU_OPTIONS(),purchaseMenu);
+				 choice = (String) menu.getChoiceFromOptions(purchaseMenu.PURCHASE_MENU_OPTIONS(),purchaseMenu, stocker.getInventory());
 //				 System.out.println("Current Money Provided: $"+purchaseMenu.getCurrentMoney());
 				 if (choice.equals(purchaseMenu.getPURCHASE_OPTION_FEED_MONEY())) {
 					 boolean isFeed = true;
 					 while (isFeed) {
-						 choice = (String) menu.getChoiceFromOptions(purchaseMenu.FEED_MONEY_OPTIONS(), purchaseMenu);
+						 choice = (String) menu.getChoiceFromOptions(purchaseMenu.FEED_MONEY_OPTIONS(), purchaseMenu, stocker.getInventory());
 
 						 if (!choice.equals(purchaseMenu.getPURCHASE_OPTION_FINISH_TRANSACTION())) {
 							 purchaseMenu.feedMoney(Integer.parseInt(choice));
