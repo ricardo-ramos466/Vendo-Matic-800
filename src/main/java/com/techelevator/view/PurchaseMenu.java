@@ -184,17 +184,25 @@ public class PurchaseMenu extends Menu{
         Scanner in = new Scanner(System.in);
         String choice = in.nextLine().toUpperCase();
         String log = "";
-        BigDecimal moneyBefore = new BigDecimal(0.00);
+        BigDecimal moneyBefore;
         boolean isChoiceValid = false;
         for (Product product : products) {
             if (product.getCode().equals(choice) && product.getQuantity() > 0 && getCurrentMoney().compareTo(product.getPrice()) >= 0) {
-                System.out.println("You have selected: " + product.getName() + ".");
+                System.out.println("You have selected: " + product.getName() + " $" + product.getPrice()+ ".");
                 product.sold();
+                System.out.println();
+                Dispensing();
                 System.out.println();
                 moneyBefore = getCurrentMoney();
                 setCurrentMoney(getCurrentMoney().subtract(product.getPrice()));
-                product.purchaseThanks();
-                log = product.getName() +" "+product.getCode()+ " $"+df.format(moneyBefore)+" $"+df.format(getCurrentMoney());
+                try {
+                    Thread.sleep(500);
+                    product.purchaseThanks();
+                    Thread.sleep(500);
+                }catch (InterruptedException e){
+                    System.err.println(e.getMessage());
+                }
+                log = product.getName() +" "+product.getCode()+ " $"+df.format(moneyBefore)+" $"+ getCurrentMoney();
                 machineLog(log);
                 isChoiceValid = true;
             } else if (product.getCode().equals(choice) && product.getQuantity() == 0 && getCurrentMoney().compareTo(product.getPrice()) >= 0 ) {
@@ -218,26 +226,36 @@ public class PurchaseMenu extends Menu{
         int dime = 0;
         int nickel = 0;
         int penny = 0;
-        BigDecimal money = getCurrentMoney();
+        BigDecimal dimeV = new BigDecimal(.10);
+        dimeV = dimeV.setScale(2,BigDecimal.ROUND_HALF_UP);
+        BigDecimal nickelV = new BigDecimal(.05);
+        nickelV = nickelV.setScale(2,BigDecimal.ROUND_HALF_UP);
+        BigDecimal quarterV = new BigDecimal(.25);
+        quarterV = quarterV.setScale(2,BigDecimal.ROUND_HALF_UP);
+        BigDecimal beforeMoney = getCurrentMoney();
 
-//        int money = getCurrentMoney()*100;
+
+        BigDecimal money = getCurrentMoney();
 
         String log = "";
 
-        if (money.compareTo(new BigDecimal(0)) > 0) {
+        if (getCurrentMoney().compareTo(new BigDecimal(0)) > 0) {
             System.out.print("Dispensing: ");
         }
-        while(money.compareTo(new BigDecimal(.25)) > 0) {
+        while(getCurrentMoney().compareTo(quarterV) >= 0) {
             quarter++;
-           money = money.subtract(new BigDecimal(.25));
+           setCurrentMoney(getCurrentMoney().subtract(quarterV));
+            money = getCurrentMoney();
         }
-        while(money.compareTo(new BigDecimal(.10)) > 0) {
+        while(getCurrentMoney().compareTo(dimeV) >= 0) {
             dime++;
-            money = money.subtract(new BigDecimal(.10));
+            setCurrentMoney(getCurrentMoney().subtract(dimeV));
+            money = getCurrentMoney();
         }
-        while (money.compareTo(new BigDecimal(.05)) > 0) {
+        while (getCurrentMoney().compareTo(nickelV) >= 0) {
             nickel++;
-            money = money.subtract(new BigDecimal(.05));
+            setCurrentMoney(getCurrentMoney().subtract(nickelV));
+            money = getCurrentMoney();
         }
 //        while (money.compareTo(new BigDecimal(.01)) > 0) {
 //            penny++;
@@ -293,11 +311,23 @@ public class PurchaseMenu extends Menu{
 //            i = 0;
 //
 //        setCurrentMoney(money.divide(new BigDecimal(100)));
-//        log = "GIVE CHANGE: $"+ money +" $"+getCurrentMoney();
-//        machineLog(log);
-//        System.out.println();
+        log = "GIVE CHANGE: $"+ beforeMoney +" $"+getCurrentMoney();
+        machineLog(log);
+        System.out.println();
     }
+    private void Dispensing(){
+        System.out.print("Dispensing");
+        try{
+            for (int i = 0;i<3;i++){
 
+                Thread.sleep(500);
+                System.out.print(".");
+            }
+            Thread.sleep(500);
+        }catch (InterruptedException e){
+        System.err.println(e.getMessage());
+    }
+    }
 
 
 

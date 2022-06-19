@@ -80,7 +80,7 @@ public class Menu {
 	}
 	public void machineLog(String log){
 		File logFile = new File("log.txt");
-		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
 		Date date = new Date();
 		try(PrintWriter logger = new PrintWriter(new FileOutputStream(logFile,true))){
 
