@@ -3,6 +3,7 @@ package com.techelevator.view;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
@@ -13,7 +14,10 @@ public class PurchaseMenu extends Menu{
     private final static String PURCHASE_OPTION_FEED_MONEY = "Feed Money";
     private final static String PURCHASE_OPTION_SELECT_PRODUCT = "Select Product";
     private final static String PURCHASE_OPTION_FINISH_TRANSACTION = "Finish Transaction";
-    private double currentMoney = 0.00;
+//    private double currentMoney = 0.00;
+    private BigDecimal currentMoney = new BigDecimal(0);
+//    private String FEED_MONEY_OPTION_EXIT = "Exit";
+
 //    DecimalFormat df = new DecimalFormat("#.00");
 
 
@@ -54,9 +58,9 @@ public class PurchaseMenu extends Menu{
 //        return choice;
 //    }
 
-    public double feedMoney(int choiceSelected) {
+    public BigDecimal feedMoney(int choiceSelected) {
         int moneyGiven = choiceSelected;
-        setCurrentMoney(getCurrentMoney()+moneyGiven);
+        setCurrentMoney(getCurrentMoney().add(new BigDecimal(moneyGiven)));
         String log ="FEED MONEY: $"+moneyGiven+"  "+getCurrentMoney();
         machineLog(log);
         return getCurrentMoney();
@@ -67,7 +71,7 @@ public class PurchaseMenu extends Menu{
     }
 
     public final String[] FEED_MONEY_OPTIONS() {
-        String[] billsToFeed = new String[] {"1", "2", "5", "10"};
+        String[] billsToFeed = new String[] {"1", "2", "5", "10", PURCHASE_OPTION_FINISH_TRANSACTION};
         return billsToFeed;
     }
 
@@ -112,10 +116,22 @@ public class PurchaseMenu extends Menu{
         int i = 0;
         for ( ; i < products.length; i += 4 ) {
             String productColumn1 = products[i].getCode() + "| " + products[i].getName() + "| $" + df.format(products[i].getPrice());
+            if (products[i].getQuantity() == 0) {
+                productColumn1 += "| Out of Stock!";
+            }
             String productColumn2 = products[i + 1].getCode() + "| " + products[i + 1].getName() + "| $" + df.format(products[i + 1].getPrice());
+            if (products[i + 1].getQuantity() == 0) {
+                productColumn2 += "| Out of Stock!";
+            }
             String productColumn3 = products[i + 2].getCode() + "| " + products[i + 2].getName() + "| $" + df.format(products[i + 2].getPrice());
+            if (products[i + 2].getQuantity() == 0) {
+                productColumn3 += "| Out of Stock!";
+            }
             String productColumn4 = products[i + 3].getCode() + "| " + products[i + 3].getName() + "| $" + df.format(products[i + 3].getPrice());
-            System.out.printf("%-35s%-35s%-35s%-35s\n", productColumn1, productColumn2, productColumn3, productColumn4);
+            if (products[i + 3].getQuantity() == 0) {
+                productColumn4 += "| Out of Stock!";
+            }
+            System.out.printf("%-45s%-45s%-45s%-45s\n", productColumn1, productColumn2, productColumn3, productColumn4);
         }
 //////        for (Product product : products) {
 ////            if (i < 4) {
@@ -168,25 +184,25 @@ public class PurchaseMenu extends Menu{
         Scanner in = new Scanner(System.in);
         String choice = in.nextLine().toUpperCase();
         String log = "";
-        double moneyBefore = 0.00;
+        BigDecimal moneyBefore = new BigDecimal(0.00);
         boolean isChoiceValid = false;
         for (Product product : products) {
-            if (product.getCode().equals(choice) && product.getQuantity() > 0 && getCurrentMoney() >= product.getPrice()) {
+            if (product.getCode().equals(choice) && product.getQuantity() > 0 && getCurrentMoney().compareTo(product.getPrice()) >= 0) {
                 System.out.println("You have selected: " + product.getName() + ".");
                 product.sold();
                 System.out.println();
                 moneyBefore = getCurrentMoney();
-                setCurrentMoney(getCurrentMoney()- product.getPrice());
+                setCurrentMoney(getCurrentMoney().subtract(product.getPrice()));
                 product.purchaseThanks();
                 log = product.getName() +" "+product.getCode()+ " $"+df.format(moneyBefore)+" $"+df.format(getCurrentMoney());
                 machineLog(log);
                 isChoiceValid = true;
-            } else if (product.getCode().equals(choice) && product.getQuantity() == 0 && getCurrentMoney() >= product.getPrice()) {
+            } else if (product.getCode().equals(choice) && product.getQuantity() == 0 && getCurrentMoney().compareTo(product.getPrice()) >= 0 ) {
                 System.out.println();
                 System.out.println("The item that you have selected is out of stock.");
                 isChoiceValid = true;
 
-            } else if (product.getCode().equals(choice) && getCurrentMoney() < product.getPrice()) {
+            } else if (product.getCode().equals(choice) && getCurrentMoney().compareTo(product.getPrice()) < 0 ) {
                 System.out.println("Balance is too low!");
                 isChoiceValid = true;
             }
@@ -198,55 +214,90 @@ public class PurchaseMenu extends Menu{
     }
 
     public void getChange(){
-        int quarter = 25;
-        int dime = 10;
-        int nickel = 5;
-        int penny = 1;
-        double moneyBefore = getCurrentMoney();
-        int money = (int)getCurrentMoney()*100;
+        int quarter = 0;
+        int dime = 0;
+        int nickel = 0;
+        int penny = 0;
+        BigDecimal money = getCurrentMoney();
+
+//        int money = getCurrentMoney()*100;
 
         String log = "";
-        int i = 0;
-        while (money>0) {
-            while (money >= quarter) {
-                money -= quarter;
-                i++;
-            }
+
+        if (money.compareTo(new BigDecimal(0)) > 0) {
             System.out.print("Dispensing: ");
-            if (i > 0) {
-                System.out.print(i + " Quarters | ");
-            }
-            i = 0;
-            while (money >= dime) {
-                money -= dime;
-                i++;
-            }
-            if (i > 0) {
-                System.out.print(i + " Dimes | ");
-            }
-            i = 0;
-            while (money >= nickel) {
-               money -= nickel;
-                i++;
-            }
-            if (i > 0) {
-                System.out.print(i + " Nickels");
-            }
-            i = 0;
-            while (money >= penny) {
-                money -= penny;
-                i++;
-            }
-            if (i > 0) {
-                System.out.println(i + " Penny");
-            }
-            i = 0;
         }
-        setCurrentMoney(money/100);
-        log = "GIVE CHANGE: $"+df.format(moneyBefore)+" $"+df.format(getCurrentMoney());
-        machineLog(log);
-        System.out.println();
+        while(money.compareTo(new BigDecimal(.25)) > 0) {
+            quarter++;
+           money = money.subtract(new BigDecimal(.25));
+        }
+        while(money.compareTo(new BigDecimal(.10)) > 0) {
+            dime++;
+            money = money.subtract(new BigDecimal(.10));
+        }
+        while (money.compareTo(new BigDecimal(.05)) > 0) {
+            nickel++;
+            money = money.subtract(new BigDecimal(.05));
+        }
+//        while (money.compareTo(new BigDecimal(.01)) > 0) {
+//            penny++;
+//            money = money.subtract(new BigDecimal(.01));
+//        }
+        if (quarter > 0) {
+            System.out.print(quarter + " Quarter(s), ");
+        }
+        if (dime > 0) {
+            System.out.print(dime + " Dime(s), ");
+        }
+        if (nickel > 0) {
+            System.out.print(nickel + " Nickel(s) ");
+        }
+//        if(penny > 0) {
+//            System.out.print(penny + " Penny");
+//        }
+
+//        int i = 0;
+////        while (money>0) {
+//            while (money >= quarter) {
+//                money -= quarter;
+//                i++;
+//            }
+//            System.out.print("Dispensing: ");
+//            if (i > 0) {
+//                System.out.print(i + " Quarters | ");
+//            }
+//            i = 0;
+//            while (money >= dime) {
+//                money -= dime;
+//                i++;
+//            }
+//            if (i > 0) {
+//                System.out.print(i + " Dimes | ");
+//            }
+//            i = 0;
+//            while (money >= nickel) {
+//               money -= nickel;
+//                i++;
+//            }
+//            if (i > 0) {
+//                System.out.print(i + " Nickels");
+//            }
+//            i = 0;
+//            while (money >= penny) {
+//                money -= penny;
+//                i++;
+//            }
+//            if (i > 0) {
+//                System.out.println(i + " Penny");
+//            }
+//            i = 0;
+//
+//        setCurrentMoney(money.divide(new BigDecimal(100)));
+//        log = "GIVE CHANGE: $"+ money +" $"+getCurrentMoney();
+//        machineLog(log);
+//        System.out.println();
     }
+
 
 
 
@@ -262,11 +313,11 @@ public class PurchaseMenu extends Menu{
         return PURCHASE_OPTION_FINISH_TRANSACTION;
     }
 
-    public double getCurrentMoney() {
-        return currentMoney;
+    public BigDecimal getCurrentMoney() {
+        return currentMoney.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
-    public void setCurrentMoney(double currentMoney) {
-        this.currentMoney = currentMoney;
+    public void setCurrentMoney(BigDecimal currentMoney) {
+        this.currentMoney = currentMoney.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 }

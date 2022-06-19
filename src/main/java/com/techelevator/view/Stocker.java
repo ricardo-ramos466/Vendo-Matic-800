@@ -44,9 +44,26 @@ public class Stocker {
     public void displayInventory() {
         String returnStatement = "0";
 
-        for (Product item : inventory) {
-            returnStatement = item.toString();
-            System.out.println(returnStatement);
+        for (int i = 0; i < inventory.size(); i+=4){
+            String productColumn1 = inventory.get(i).getCode() + "| " + inventory.get(i).getName() + "| $" + inventory.get(i).getPrice();
+            if (inventory.get(i).getQuantity() == 0) {
+                productColumn1 += "| Out of Stock!";
+            }
+            String productColumn2 = inventory.get(i + 1).getCode() + "| " + inventory.get(i + 1).getName() + "| $" + inventory.get(i + 1).getPrice();
+            if (inventory.get(i + 1).getQuantity() == 0) {
+                productColumn2 += "| Out of Stock!";
+            }
+            String productColumn3 = inventory.get(i + 2).getCode() + "| " + inventory.get(i + 2).getName() + "| $" + inventory.get(i + 2).getPrice();
+            if (inventory.get(i + 2).getQuantity() == 0) {
+                productColumn3 += "| Out of Stock!";
+            }
+            String productColumn4 = inventory.get(i + 3).getCode() + "| " + inventory.get(i + 3).getName() + "| $" + inventory.get(i + 3).getPrice();
+            if (inventory.get(i + 3).getQuantity() == 0) {
+                productColumn4 += "| Out of Stock!";
+            }
+            System.out.printf("%-45s%-45s%-45s%-45s\n", productColumn1, productColumn2, productColumn3, productColumn4);
+//            returnStatement = item.toString();
+//            System.out.println(returnStatement);
         }
 
     }

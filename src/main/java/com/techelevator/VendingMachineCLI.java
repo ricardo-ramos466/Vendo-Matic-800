@@ -32,15 +32,26 @@ public class VendingMachineCLI {
 				while (isPurchase){
 
 				 choice = (String) menu.getChoiceFromOptions(purchaseMenu.PURCHASE_MENU_OPTIONS(),purchaseMenu);
-				 System.out.println("Current Money Provided: $"+purchaseMenu.getCurrentMoney());
+//				 System.out.println("Current Money Provided: $"+purchaseMenu.getCurrentMoney());
 				 if (choice.equals(purchaseMenu.getPURCHASE_OPTION_FEED_MONEY())) {
-					 choice = (String) menu.getChoiceFromOptions(purchaseMenu.FEED_MONEY_OPTIONS());
-					purchaseMenu.feedMoney(Integer.parseInt(choice));
+					 boolean isFeed = true;
+					 while (isFeed) {
+						 choice = (String) menu.getChoiceFromOptions(purchaseMenu.FEED_MONEY_OPTIONS(), purchaseMenu);
+
+						 if (!choice.equals(purchaseMenu.getPURCHASE_OPTION_FINISH_TRANSACTION())) {
+							 purchaseMenu.feedMoney(Integer.parseInt(choice));
+//
+						 }
+						 if (choice.equals(purchaseMenu.getPURCHASE_OPTION_FINISH_TRANSACTION())) {
+							 isFeed = false;
+						 }
+					 }
+
 				 } else if (choice.equals(purchaseMenu.getPURCHASE_OPTION_SELECT_PRODUCT())) {
 					 choice = (String) purchaseMenu.getProductOption(purchaseMenu.productPurchasetoArray(stocker.getInventory()));
 //					 Ask Sweet for suggestions to get this portion to work ^
 				 } else if (choice.equals(purchaseMenu.getPURCHASE_OPTION_FINISH_TRANSACTION())) {
-					 if(purchaseMenu.getCurrentMoney()!= 0) {
+					 if(!purchaseMenu.getCurrentMoney().equals(0)) {
 						 purchaseMenu.getChange();
 					 }
 					 isPurchase = false;

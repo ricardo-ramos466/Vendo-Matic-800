@@ -1,9 +1,11 @@
 package com.techelevator.view;
 
+import java.math.BigDecimal;
+
 public abstract class Product implements Purchasable{
     private String code;
     private String name;
-    private double price;
+    private BigDecimal price;
     private String type;
     private int quantity;
     private int amountSold;
@@ -12,13 +14,15 @@ public abstract class Product implements Purchasable{
 
     public Product(String name, double price) {
         this.name = name;
-        this.price = price;
+        this.price = new BigDecimal(price);
+        this.price = this.price.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     public Product(String code, String name, double price, String type, int quanity){
         this.code = code;
         this.name = name;
-        this.price = price;
+        this.price = new BigDecimal(price);
+        this.price = this.price.setScale(2, BigDecimal.ROUND_HALF_UP);
         this.type = type;
         this.quantity = quanity;
     }
@@ -44,12 +48,12 @@ public abstract class Product implements Purchasable{
         this.name = name;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setPrice(double price) {
+        this.price = new BigDecimal(price);
     }
 
     public String getType() {
