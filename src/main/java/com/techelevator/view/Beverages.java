@@ -8,6 +8,7 @@ public class Beverages extends Product{
     public Beverages(String code, String name, double price, String type, int quanity) {
         super(code, name, price, type, quanity);
     }
+    //Produces message after purchase
     @Override
     void purchaseThanks() {
         System.out.println("Glug Glug, Yum!");

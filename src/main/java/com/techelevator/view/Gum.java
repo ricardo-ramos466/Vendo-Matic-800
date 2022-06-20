@@ -5,9 +5,11 @@ public class Gum extends Product{
         super(name, price);
     }
 
-    public Gum(String code, String name, double price, String type, int quanity) {
-        super(code, name, price, type, quanity);
+    public Gum(String code, String name, double price, String type, int quantity) {
+        super(code, name, price, type, quantity);
     }
+
+    //Produces message after purchase
     @Override
     void purchaseThanks() {
         System.out.println("Chew Chew, Yum!");

@@ -78,6 +78,7 @@ public class Menu {
 				choice = options[selectedOption - 1];
 			} else if (selectedOption == 4) {
 				salesReport(products);
+				choice = "not null";
 			}
 		} catch (NumberFormatException e) {
 			// eat the exception, an error message will be displayed below since choice will be null
@@ -128,7 +129,6 @@ public class Menu {
 		String currentDate = formatDate.format(date);
 		String filePath = currentDate + "_salesReport.txt";
 		File salesReportFile = new File(filePath);
-		System.out.println(currentDate+"\n"+salesReportFile);
 
 
 		try(PrintWriter logger = new PrintWriter(salesReportFile)){

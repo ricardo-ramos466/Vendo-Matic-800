@@ -37,12 +37,11 @@ public class Stocker {
             }
         }
         catch(IOException ex) {
-            System.out.println("Heeelp");
+            System.out.println("File not found or invalid entry.");
         }
     }
 
     public void displayInventory() {
-        String returnStatement = "0";
 
         for (int i = 0; i < inventory.size(); i+=4){
             String productColumn1 = inventory.get(i).getCode() + "| " + inventory.get(i).getName() + "| $" + inventory.get(i).getPrice();
@@ -62,8 +61,7 @@ public class Stocker {
                 productColumn4 += "| Out of Stock!";
             }
             System.out.printf("%-45s%-45s%-45s%-45s\n", productColumn1, productColumn2, productColumn3, productColumn4);
-//            returnStatement = item.toString();
-//            System.out.println(returnStatement);
+
         }
 
     }

@@ -4,24 +4,26 @@ import com.techelevator.view.Menu;
 import com.techelevator.view.PurchaseMenu;
 import com.techelevator.view.Stocker;
 
+import java.math.BigDecimal;
+
 public class VendingMachineCLI {
 
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
 	private static final String MAIN_MENU_CLOSE_OPTION = "Exit";
 	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_CLOSE_OPTION };
-	private PurchaseMenu purchaseMenu = new PurchaseMenu();
+	private final PurchaseMenu Purchase_Menu = new PurchaseMenu();
 	static Stocker stocker = new Stocker();
-	private Menu menu;
+	private final Menu Main_Menu;
 
 	public VendingMachineCLI(Menu menu) {
-		this.menu = menu;
+		this.Main_Menu = menu;
 	}
 
 	public void run() {
 		boolean isRun = true;
 		while (isRun) {
-			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS, stocker.getInventory());
+			String choice = (String) Main_Menu.getChoiceFromOptions(MAIN_MENU_OPTIONS, stocker.getInventory());
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				// display vending machine items
@@ -31,28 +33,27 @@ public class VendingMachineCLI {
 				boolean isPurchase =true;
 				while (isPurchase){
 
-				 choice = (String) menu.getChoiceFromOptions(purchaseMenu.PURCHASE_MENU_OPTIONS(),purchaseMenu, stocker.getInventory());
+				 choice = (String) Main_Menu.getChoiceFromOptions(Purchase_Menu.PURCHASE_MENU_OPTIONS(),Purchase_Menu, stocker.getInventory());
 //				 System.out.println("Current Money Provided: $"+purchaseMenu.getCurrentMoney());
-				 if (choice.equals(purchaseMenu.getPURCHASE_OPTION_FEED_MONEY())) {
+				 if (choice.equals(Purchase_Menu.getPURCHASE_OPTION_FEED_MONEY())) {
 					 boolean isFeed = true;
 					 while (isFeed) {
-						 choice = (String) menu.getChoiceFromOptions(purchaseMenu.FEED_MONEY_OPTIONS(), purchaseMenu, stocker.getInventory());
+						 choice = (String) Main_Menu.getChoiceFromOptions(Purchase_Menu.FEED_MONEY_OPTIONS(), Purchase_Menu, stocker.getInventory());
 
-						 if (!choice.equals(purchaseMenu.getPURCHASE_OPTION_FINISH_TRANSACTION())) {
-							 purchaseMenu.feedMoney(Integer.parseInt(choice));
+						 if (!choice.equals(Purchase_Menu.getPURCHASE_OPTION_FINISH_TRANSACTION())) {
+							 Purchase_Menu.feedMoney(Integer.parseInt(choice));
 //
 						 }
-						 if (choice.equals(purchaseMenu.getPURCHASE_OPTION_FINISH_TRANSACTION())) {
+						 if (choice.equals(Purchase_Menu.getPURCHASE_OPTION_FINISH_TRANSACTION())) {
 							 isFeed = false;
 						 }
 					 }
 
-				 } else if (choice.equals(purchaseMenu.getPURCHASE_OPTION_SELECT_PRODUCT())) {
-					 choice = (String) purchaseMenu.getProductOption(purchaseMenu.productPurchasetoArray(stocker.getInventory()));
-//					 Ask Sweet for suggestions to get this portion to work ^
-				 } else if (choice.equals(purchaseMenu.getPURCHASE_OPTION_FINISH_TRANSACTION())) {
-					 if(!purchaseMenu.getCurrentMoney().equals(0)) {
-						 purchaseMenu.getChange();
+				 } else if (choice.equals(Purchase_Menu.getPURCHASE_OPTION_SELECT_PRODUCT())) {
+					 Purchase_Menu.getProductOption(stocker.getInventory());
+				 } else if (choice.equals(Purchase_Menu.getPURCHASE_OPTION_FINISH_TRANSACTION())) {
+					 if(!Purchase_Menu.getCurrentMoney().equals(new BigDecimal("0"))) {
+						 Purchase_Menu.getChange();
 					 }
 					 isPurchase = false;
 				 }

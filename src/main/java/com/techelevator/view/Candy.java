@@ -9,6 +9,7 @@ public class Candy extends Product{
         super(code, name, price, type, quanity);
     }
 
+    //Produces message after purchase
     @Override
     void purchaseThanks() {
         System.out.println("Munch Munch, Yum!");
