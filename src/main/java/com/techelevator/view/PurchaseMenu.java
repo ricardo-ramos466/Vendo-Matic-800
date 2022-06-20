@@ -30,8 +30,9 @@ public class PurchaseMenu extends Menu{
 
     public BigDecimal feedMoney(int choiceSelected) {
         int moneyGiven = choiceSelected;
+       BigDecimal moneyBefore = getCurrentMoney();
         setCurrentMoney(getCurrentMoney().add(new BigDecimal(moneyGiven)));
-        String log ="FEED MONEY: $"+moneyGiven+"  "+getCurrentMoney();
+        String log ="FEED MONEY: $"+moneyBefore+"  $"+getCurrentMoney();
         machineLog(log);
         return getCurrentMoney();
     }
